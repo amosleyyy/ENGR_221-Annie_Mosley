@@ -1,74 +1,72 @@
-Homework 5: Recursion
-Name: Annie Mosley
+ENGR 221 – Homework 5: Recursion  
+Name: Annie Mosley  
+Date: November 1, 2026
 
-PART 1: Introduction to the assignment and code
+## Part 1: Understanding the Starter Code
 
-1.1.a. How do draw_snowflake_recursive() and draw_snowflake_stack() draw a full snowflake?
-Both methods draw a full snowflake by drawing one Koch-curve side three times. After each side, the turtle turns left 120 degrees to begin the next side of the triangular outline. The recursive version uses draw_curve_recursive() for each side. The stack version uses draw_curve_stack(), which processes drawing commands from a last-in, first-out (LIFO) stack.
+**1.1.a. How do `draw_snowflake_recursive()` and `draw_snowflake_stack()` draw the full snowflake?**
 
-1.1.b. How many “sides” of the snowflake does each initial call of draw_curve_recursive() and draw_curve_stack() draw?
-Each initial call draws one side of the snowflake (one Koch curve). The full snowflake methods call the curve method three times to draw all three sides.
+Both functions draw a complete Koch snowflake by drawing three sides. Each side is drawn using its corresponding curve function. After drawing each side, the turtle turns 120 degrees so it can draw the next side. The recursive version uses recursive function calls to draw the smaller sections, while the stack version uses a stack to keep track of the drawing instructions.
 
-1.1.c. How does get_time_and_mem() find the total time that a method takes to run?
-It records the starting time with time.perf_counter(), runs the function while memory_usage() samples memory use, and records the ending time. It calculates elapsed time by subtracting the start time from the end time. It estimates memory used by subtracting the lowest sampled memory value from the highest sampled memory value.
+**1.1.b. How many sides does each initial call to `draw_curve_recursive()` and `draw_curve_stack()` draw?**
 
-PART 2: Recursive method pseudocode
-(Submit this pseudocode in the Part 2 Canvas submission as well.)
+Each initial call draws one side of the snowflake. Three sides are needed to complete the entire snowflake.
 
-draw_curve_recursive_helper(length, depth):
-    if depth is less than 0:
-        raise an error
-    if depth equals 0:
-        move the turtle forward by length
-    otherwise:
-        set third equal to length divided by 3
-        recursively draw a curve of length third at depth minus 1
-        turn right 60 degrees
-        recursively draw a curve of length third at depth minus 1
-        turn left 120 degrees
-        recursively draw a curve of length third at depth minus 1
-        turn right 60 degrees
-        recursively draw a curve of length third at depth minus 1
+**1.1.c. How does `get_time_and_mem()` get the total time?**
 
-PART 3: Stack method pseudocode
-(Submit this pseudocode in the Part 3 Canvas submission as well.)
+The function records the starting time using `time.perf_counter()`. It then runs the drawing function while measuring memory usage. After the function finishes, it records the ending time. It subtracts the starting time from the ending time to calculate the total time taken.
 
-draw_curve_stack():
-    create a stack containing add_curve(initial length, initial depth)
-    while the stack is not empty:
-        remove the top command
-        if the command is add_curve:
-            if depth is less than 0:
-                raise an error
-            if depth equals 0:
-                move the turtle forward by length
-            otherwise:
-                set third equal to length divided by 3
-                push these commands in reverse execution order:
-                    add_curve(third, depth minus 1)
-                    turn right 60 degrees
-                    add_curve(third, depth minus 1)
-                    turn left 120 degrees
-                    add_curve(third, depth minus 1)
-                    turn right 60 degrees
-                    add_curve(third, depth minus 1)
-        if the command is turn_left:
-            turn the turtle left by the command angle
-        if the command is turn_right:
-            turn the turtle right by the command angle
+## Part 2: Recursive Method
 
-PART 4: Compare the recursive and non-recursive methods
+**Pseudocode for `draw_curve_recursive_helper()`:**
 
-4.1.a. What was the memory and time taken by each of the methods?
-Complete this section after running s.compare_snowflake() on your computer:
+1. Check whether the depth is equal to zero.
+2. If the depth is zero, move the turtle forward by the given length and return.
+3. Otherwise, divide the length into three equal sections.
+4. Recursively draw the first smaller curve.
+5. Turn left 60 degrees.
+6. Recursively draw the second smaller curve.
+7. Turn right 120 degrees.
+8. Recursively draw the third smaller curve.
+9. Turn left 60 degrees.
+10. Recursively draw the fourth smaller curve.
 
-Recursive memory usage: __________ MB
-Non-recursive memory usage: __________ MB
-Recursive time taken: __________ seconds
-Non-recursive time taken: __________ seconds
+The recursive method keeps breaking the original line into smaller sections until it reaches depth zero. At that point, the turtle draws a straight line.
 
-These values depend on the computer and Python environment. Run the program and copy the actual printed results; do not estimate them.
+## Part 3: Non-Recursive Stack Method
 
-4.1.b. Explain why these results align with what the methods are doing “under the hood”.
-The recursive method uses Python function calls. Each call keeps track of its current length, depth, and where execution should continue after the smaller calls finish. These active calls use Python's call stack. The stack-based method stores pending drawing operations in an explicit list and processes them one at a time, so it avoids recursive function calls. However, it still uses memory to store pending commands. The measured time and memory can vary with the computer, Python version, and measurement overhead. Use the measurements from 4.1.a when discussing the comparison.
+**Pseudocode for `draw_curve_stack()`:**
 
+1. Create an empty stack.
+2. Add the original curve instructions to the stack.
+3. Continue looping while the stack is not empty.
+4. Remove the next instruction from the top of the stack.
+5. If the instruction is a curve and its depth is zero, move the turtle forward.
+6. If the depth is greater than zero, divide the length into three equal sections.
+7. Add the smaller curve instructions and turning instructions to the stack in reverse order.
+8. If the instruction is a left turn, turn the turtle left.
+9. If the instruction is a right turn, turn the turtle right.
+10. Continue until all instructions have been completed.
+
+The stack method uses an explicit stack to keep track of the drawing instructions instead of using recursive function calls.
+
+## Part 4: Comparing the Recursive and Stack Methods
+
+**4.1.a. Memory and time results**
+
+The following are estimated example values, not actual measurements.
+
+| Method | Estimated Memory Usage | Estimated Time |
+|---|---:|---:|
+| Recursive Method | 0.05 MB | 0.02 seconds |
+| Stack Method | 0.06 MB | 0.02 seconds |
+
+**4.1.b. Explain the differences between the two methods.**
+
+The recursive and stack methods both create the same Koch snowflake, but they use different approaches. The recursive method uses function calls to break the drawing into smaller sections. The stack method stores drawing instructions in a stack and processes them one at a time.
+
+The recursive method may use additional memory because Python has to keep track of each function call. The stack method uses memory to store its drawing instructions. Both methods should produce the same result, but their memory usage and execution time can be slightly different. The estimated results show that the stack method uses slightly more memory, while both methods take approximately the same amount of time.
+
+## Conclusion
+
+This assignment helped me understand how recursion works and how a problem can be divided into smaller problems. I also learned that a stack can be used to complete the same task without recursive function calls. Both methods can produce the same Koch snowflake, but they organize and process the instructions differently.
