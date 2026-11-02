@@ -1,5 +1,5 @@
 Homework 5: Recursion
-Name: [Your Name]
+Name: [Annie Mosley]
 
 PART 1: Introduction to the assignment and code
 
@@ -69,4 +69,3 @@ These values depend on the computer and Python environment, so they must be meas
 
 4.1.b. Explain why these results align with what the methods are doing “under the hood”.
 The recursive method uses Python function calls. Each call must keep track of its current length, depth, and where it should continue after the smaller calls finish. These active calls use the program's call stack. The stack-based method instead stores the pending drawing operations in an explicit list and processes them one at a time. It avoids making recursive function calls, although it still needs memory to store pending commands. The measured time and memory can vary with the computer, Python version, and measurement overhead. The results should be discussed using the actual measurements from 4.1.a.
-
