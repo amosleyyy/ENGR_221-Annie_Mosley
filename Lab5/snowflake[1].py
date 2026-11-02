@@ -1,5 +1,5 @@
 """
-Name: [Your Name]
+Name: [Annie Mosley]
 Last updated: November 1, 2026
 Description: Draws a Koch snowflake using recursive and stack-based methods,
              and compares their execution time and memory usage.
